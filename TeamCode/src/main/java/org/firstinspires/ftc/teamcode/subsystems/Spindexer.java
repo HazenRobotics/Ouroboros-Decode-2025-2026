@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.interstellar.Subsystem;
 import org.firstinspires.ftc.teamcode.interstellar.hardwaremapwrappers.StellarServo;
 
 public final class Spindexer extends Subsystem {
-	private final static double DEGREES_TO_SERVO = 1.0 / 360.0;
+	private final static double DEGREES_TO_SERVO = 1.0 / 355.0;
 	private int selectedSegment = 0;
 	private boolean isIntakePosition = true;
 	private final static double[] INTAKE_DEGREE_POSITIONS = {0.0, 240.0, 120.0};
@@ -33,9 +33,7 @@ public final class Spindexer extends Subsystem {
 	}
 
 	@Override
-	public void update() {
-		updateServoPosition();
-	}
+	public void update() {}
 
 	public void setSelectedSegment(int selectedSegment) {
 		this.selectedSegment = selectedSegment;

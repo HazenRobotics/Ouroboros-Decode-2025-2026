@@ -25,9 +25,7 @@ public final class Intake extends Subsystem {
 	}
 
 	@Override
-	public void update() {
-		setMotorSpeed();
-	}
+	public void update() {}
 
 	public void setIntakeSpeed(double intakeSpeed) {
 		this.intakeSpeed = intakeSpeed;

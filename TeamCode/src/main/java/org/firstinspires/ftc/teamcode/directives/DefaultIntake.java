@@ -7,8 +7,10 @@ import org.firstinspires.ftc.teamcode.interstellar.directives.DefaultDirective;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 
 public class DefaultIntake extends DefaultDirective {
+	private final Intake intake;
 	public DefaultIntake(Intake intake, Gamepad gamepad) {
 		super(intake);
+		this.intake = intake;
 
 		//todo: make if/else
 
@@ -26,5 +28,10 @@ public class DefaultIntake extends DefaultDirective {
 				() -> (gamepad.right_trigger <= 0.05) == (gamepad.left_trigger <= 0.05), //neither or both triggers are pressed
 				() -> {intake.setIntakeSpeed(0);} //set intake speed to 0
 		).schedule();
+	}
+
+	@Override
+	public void update() {
+		intake.setMotorSpeed();
 	}
 }
