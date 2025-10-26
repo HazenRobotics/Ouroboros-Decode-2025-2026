@@ -198,7 +198,7 @@ public class Camera {
                Math.pow(tag.robotPose.getPosition().z, 2);
     }
 
-    public double getTagHorizonalAngle(AprilTagDetection tag) {
+    public double getTagHorizontalAngle(AprilTagDetection tag) {
         /*
          * Gets the angle of the april tag relative to the camera.
          */

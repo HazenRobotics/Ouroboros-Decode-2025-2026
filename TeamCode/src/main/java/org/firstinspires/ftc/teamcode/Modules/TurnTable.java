@@ -54,7 +54,7 @@ public class TurnTable {
 
         for (AprilTagDetection detection : detections) {
             if (detection.metadata.name.equals(goal_tag)) {
-                double horiz_angle = camera.getTagHorizonalAngle(detection);
+                double horiz_angle = camera.getTagHorizontalAngle(detection);
                 setPosition(horiz_angle * riptideUtil.MOTOR_POS_CONST * 2 / riptideUtil.CAMERA_WIDTH);
             }
         }

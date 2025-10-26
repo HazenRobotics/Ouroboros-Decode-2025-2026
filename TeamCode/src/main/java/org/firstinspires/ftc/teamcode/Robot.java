@@ -11,15 +11,20 @@ public class Robot {
     HardwareMap hardwareMap;
 
     Drivetrain drivetrain;
+    Camera camera;
 
     public Robot (HardwareMap hardwareMap){
         this.hardwareMap = hardwareMap;
 
         drivetrain = new Drivetrain(hardwareMap);
+        camera = hardwareMap.get(Camera.class, "camera");
     }
 
     public Drivetrain getDrivetrain(){
         return drivetrain;
+    }
+    public Camera getCamera() {
+        return camera;
     }
 
 }
