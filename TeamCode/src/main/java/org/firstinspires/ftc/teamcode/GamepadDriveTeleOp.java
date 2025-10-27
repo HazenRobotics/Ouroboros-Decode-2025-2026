@@ -17,9 +17,10 @@ public class GamepadDriveTeleOp extends OpMode {
     public void loop() {
 
         double forward = -gamepad1.left_stick_y;
-        double right = gamepad1.left_stick_x;
+        double right = -gamepad1.left_stick_x;
         double rotate = gamepad1.right_stick_x;
 
         drive.drive(forward, right, rotate);
+        telemetry.update();
     }
 }
