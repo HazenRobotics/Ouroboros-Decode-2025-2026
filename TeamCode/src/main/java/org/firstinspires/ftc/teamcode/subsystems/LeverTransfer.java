@@ -29,9 +29,7 @@ public final class LeverTransfer extends Subsystem {
 	}
 
 	@Override
-	public void update() {
-		updateServoPosition();
-	}
+	public void update() {}
 
 	public void setLeverPositionIsUp(boolean isUpPosition) {
 		isLeverTargetUp = isUpPosition;
