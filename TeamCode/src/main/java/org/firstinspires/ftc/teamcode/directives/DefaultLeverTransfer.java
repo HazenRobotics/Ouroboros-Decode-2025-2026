@@ -9,10 +9,8 @@ import org.firstinspires.ftc.teamcode.stellarstructure.runnables.DefaultDirectiv
 import org.firstinspires.ftc.teamcode.subsystems.LeverTransfer;
 
 public class DefaultLeverTransfer extends DefaultDirective {
-	private final LeverTransfer leverTransfer;
 	public DefaultLeverTransfer(LeverTransfer leverTransfer, Gamepad gamepad) {
 		super(leverTransfer);
-		this.leverTransfer = leverTransfer;
 
 		new Trigger(
 				new StatefulCondition(

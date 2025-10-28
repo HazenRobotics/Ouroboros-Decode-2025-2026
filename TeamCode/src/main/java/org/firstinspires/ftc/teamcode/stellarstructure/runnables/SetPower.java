@@ -22,9 +22,7 @@ public class SetPower extends Directive {
 	}
 
 	@Override
-	public void update() {
-
-	}
+	public void update() {}
 
 	@Override
 	public void stop(boolean interrupted) {
