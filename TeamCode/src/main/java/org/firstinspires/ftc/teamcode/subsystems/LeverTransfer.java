@@ -7,6 +7,9 @@ import org.firstinspires.ftc.teamcode.stellarstructure.hardwaremapwrappers.Stell
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.stellarstructure.Subsystem;
+import org.firstinspires.ftc.teamcode.stellarstructure.runnables.Directive;
+import org.firstinspires.ftc.teamcode.stellarstructure.runnables.MoveTo;
+import org.firstinspires.ftc.teamcode.stellarstructure.runnables.SetPosition;
 
 public final class LeverTransfer extends Subsystem {
 	private static final LeverTransfer leverTransfer = new LeverTransfer();
@@ -46,11 +49,14 @@ public final class LeverTransfer extends Subsystem {
 	}
 
 	public void updateServoPosition() {
-		if (Spindexer.getInstance().getIsIntakePosition()) {
-			leverTransferServo.setPosition(isLeverTargetUp ? LEVER_UP_POSITION : LEVER_DOWN_POSITION);
-		} else {
-			leverTransferServo.setPosition(LEVER_DOWN_POSITION);
-		}
+		//todo: fix directive spam
+		new SetPosition(
+				leverTransferServo,
+				isLeverTargetUp ? LEVER_UP_POSITION : LEVER_DOWN_POSITION,
+				0.01
+		).setStartingConditions(
+				() -> !Spindexer.getInstance().getIsIntakePosition()
+		).schedule();
 	}
 
 	public boolean getIsLeverUp() {

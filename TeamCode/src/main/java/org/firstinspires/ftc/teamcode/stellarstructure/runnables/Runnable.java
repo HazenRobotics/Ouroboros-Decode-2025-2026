@@ -21,13 +21,24 @@ public abstract class Runnable {
 
     private boolean hasFinished = false;
 
-    public abstract void start(boolean hadToInterruptToStart);
+    protected abstract void start(boolean hadToInterruptToStart);
 
     public abstract void update();
 
-    public abstract void stop(boolean interrupted);
+    protected abstract void stop(boolean interrupted);
 
-    public abstract boolean isFinished();
+    public final void schedulerStart(boolean hadToInterruptToStart) {
+        hasFinished = false;
+        start(hadToInterruptToStart);
+    }
+
+    public final void schedulerStop(boolean interrupted) {
+        hasFinished = true;
+        stop(interrupted);
+    }
+
+    protected abstract boolean isFinished();
+
     public final void addTrigger(Trigger trigger) {
         ownedTriggers.add(trigger);
     }
@@ -40,36 +51,43 @@ public abstract class Runnable {
         return this.ownedTriggers;
     }
 
-    public final void setRequires(@NonNull Subsystem... subsystems) {
+    public final Runnable setRequires(@NonNull Subsystem... subsystems) {
         requiredSubsystems = subsystems;
+        return this;
     }
 
     public final Subsystem[] getRequiredSubsystems() {
         return requiredSubsystems;
     }
 
-    public final void setInterruptible(boolean interruptible) {
+    public final Runnable setInterruptible(boolean interruptible) {
         this.interruptible = interruptible;
+        return this;
     }
 
     public final Condition[] getStartingConditions() {
         return startingConditions;
     }
 
-    public final void setStartingConditions(Condition... startingConditions) {
+    public final Runnable setStartingConditions(Condition... startingConditions) {
         this.startingConditions = startingConditions;
+        return this;
     }
 
     public final boolean getInterruptible() {
         return interruptible;
     }
 
-    public final boolean getHasFinished() {
+    public final boolean getFinished() {
+        if (!hasFinished) {
+            hasFinished = isFinished();
+        }
+
         return hasFinished;
     }
 
-    public final void setHasFinished(boolean finished) {
-        hasFinished = finished;
+    public final boolean getHasFinished() {
+        return hasFinished;
     }
 
     public final void schedule() {

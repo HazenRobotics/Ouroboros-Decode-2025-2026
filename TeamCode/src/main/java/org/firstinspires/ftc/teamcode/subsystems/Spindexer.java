@@ -56,15 +56,6 @@ public final class Spindexer extends Subsystem {
 	}
 
 	public void updateServoPosition() {
-		LeverTransfer leverTransfer = LeverTransfer.getInstance();
-		if (leverTransfer.getIsLeverUp()) {
-			// lower lever
-			leverTransfer.setLeverPositionIsUp(false);
-			leverTransfer.updateServoPosition();
-
-			leverTransfer.updateServoPosition();
-		}
-
 		spindexerServo.setPosition(
 				((isIntakePosition ?
 						INTAKE_DEGREE_POSITIONS[selectedSegment] :

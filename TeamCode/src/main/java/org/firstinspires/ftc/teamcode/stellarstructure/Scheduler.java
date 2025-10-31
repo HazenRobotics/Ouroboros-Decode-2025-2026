@@ -16,7 +16,7 @@ public class Scheduler {
 	private Scheduler() {}
 
 	//todo: make the waitlist optional with a boolean
-	//todo: add cancel method for runnables and triggers
+	//todo: add cancel method for runnables
 
 	public static Scheduler getInstance() {
 		return instance;
@@ -68,8 +68,7 @@ public class Scheduler {
 
 						if (activeRunnable.getInterruptible()) {
 							// if the running command is interruptible, stop it and remove it
-							activeRunnable.stop(true);
-							activeRunnable.setHasFinished(true);
+							activeRunnable.schedulerStop(true);
 
 							// remove the runnable's triggers
 							activeTriggers.removeAll(activeRunnable.getOwnedTriggers());
@@ -88,8 +87,6 @@ public class Scheduler {
 			}
 		}
 
-		runnableToStart.setHasFinished(false); // in case it has finished earlier
-
 		this.activeRunnables.add(runnableToStart); // add to running directives
 
 		//add runnable's triggers
@@ -97,7 +94,7 @@ public class Scheduler {
 			addTrigger(trigger);
 		}
 
-		runnableToStart.start(didInterrupt); // start directive and pass hadToInterruptToStart status
+		runnableToStart.schedulerStart(didInterrupt); // start directive and pass hadToInterruptToStart status
 		return true;
 	}
 
@@ -133,6 +130,7 @@ public class Scheduler {
 	}
 
 	public void run() {
+		// check schedule queue and potentially move directives to running directives
 		checkScheduleQueue();
 
 		// check and run all triggers
@@ -145,13 +143,11 @@ public class Scheduler {
 		// update directives and remove finished directives
 		for (Iterator<Runnable> iterator = this.activeRunnables.iterator(); iterator.hasNext();) {
 			Runnable runnable = iterator.next();
-			if (runnable.isFinished()) {
-				runnable.stop(false);
-
+			if (runnable.getFinished()) {
 				// remove the runnable's triggers
 				activeTriggers.removeAll(runnable.getOwnedTriggers());
 
-				runnable.setHasFinished(true);
+				runnable.schedulerStop(false);
 				iterator.remove();
 			} else {
 				runnable.update();
@@ -192,7 +188,7 @@ public class Scheduler {
 
 		// stop all directives
 		for (Runnable runnable : this.activeRunnables) {
-			runnable.stop(true);
+			runnable.schedulerStop(true);
 		}
 
 		// clear all running directives
