@@ -19,7 +19,7 @@ public class Hardware {
 
     //    // Motors
 
-    private Limelight3A limelight;
+    public Limelight3A limelight;
     public final DcMotorEx lf;
     public final DcMotorEx rf;
     public final DcMotorEx lb;
