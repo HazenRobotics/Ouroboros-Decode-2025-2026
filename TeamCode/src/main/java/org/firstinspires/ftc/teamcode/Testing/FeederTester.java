@@ -21,15 +21,14 @@ public class FeederTester extends LinearOpMode {
             while(opModeIsActive())
             {
                //feeder.feed(controller1.left_trigger.getTriggerValue() - controller1.right_trigger.getTriggerValue());
-               if(controller1.a.onPress()){
+               if(controller1.a.onPress()) {
                    feeder.feed();
+                   controller1.update();
+                   controller2.update();
+                   telemetry.addLine(feeder.getData());
+                   telemetry.addLine("Left and Right Triggers to control feeder, a button to feed");
+                   telemetry.update();
                }
-                controller1.update();
-                controller2.update();
-
-               telemetry.addLine(feeder.getData());
-                telemetry.addLine("Left and Right Triggers to control feeder, a button to feed");
-                telemetry.update();
 
             }
         }

@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.Intake;
 import org.firstinspires.ftc.teamcode.SubSystems.MecanumDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.Shooter;
 import org.firstinspires.ftc.teamcode.SubSystems.Transfer;
-import org.firstinspires.ftc.teamcode.Vision.LogitechCam;
+import org.firstinspires.ftc.teamcode.LogitechCam;
 import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
