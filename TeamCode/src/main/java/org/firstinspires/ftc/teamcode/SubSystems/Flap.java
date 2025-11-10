@@ -9,8 +9,8 @@ public class Flap {
     private double position;
     private double frontPosition;
     private double backPosition;
-    private double backStop = 0.38;
-    private double backDown = 0;
+    private double backStop = 0.6789;
+    private double backDown = 0.5134;
     private double frontStop = 0.2642;
     private double frontGo = 0.7839;
     public Flap(HardwareMap hw, String frontName, String backName){
@@ -56,8 +56,7 @@ public class Flap {
     }
     public void adjustPosition(double increment)
     {
-        double position = 0;
-        position += increment*0.005;
+        position += increment*0.0005;
         frontFlap.setPosition(position);
         backFlap.setPosition(position);
     }
