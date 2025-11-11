@@ -59,6 +59,10 @@ public class StarterRobot {
         drive.drive(controller1.left_stick_y, -controller1.left_stick_x, controller1.right_stick_x);
     }
 
+    public void drive(double x,double y, double z) {
+        drive.drive(x, y, z);
+    }
+
     //intake
     public void intake() {
         flap.backBlock();

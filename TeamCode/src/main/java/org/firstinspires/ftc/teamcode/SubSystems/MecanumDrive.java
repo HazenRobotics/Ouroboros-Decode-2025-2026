@@ -40,8 +40,8 @@ public class MecanumDrive {
     public MecanumDrive(HardwareMap hw, String  leftTopName, String leftBottomName, String rightTopName,
                         String rightBottomName, String imuName) {
         leftTop = hw.get(DcMotorEx.class,  leftTopName);
-        rightTop = hw.get(DcMotorEx.class, leftBottomName);
-        leftBottom = hw.get(DcMotorEx.class, rightTopName);
+        rightTop = hw.get(DcMotorEx.class, rightTopName);
+        leftBottom = hw.get(DcMotorEx.class, leftBottomName);
         rightBottom = hw.get(DcMotorEx.class, rightBottomName);
 
         rightTop.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -56,14 +56,14 @@ public class MecanumDrive {
         imu.initialize(parameters);
     }
 
-    public void drive(double forward, double strafe, double rotate) {
+    public void drive(double forward, double strafe, double rotate)
+    {
 
         //Issue with rotating
         leftTop.setPower(forward + strafe - rotate);
-        rightTop.setPower(forward - strafe + rotate);
-        leftBottom.setPower(forward - strafe - rotate);
+        leftBottom.setPower(forward - strafe + rotate);
+        rightTop.setPower(forward - strafe - rotate);
         rightBottom.setPower(forward + strafe + rotate);
-
     }
     //Formula's copied from gmZero
     public void fieldCentricDrive(double forward, double strafe, double rotate) {
