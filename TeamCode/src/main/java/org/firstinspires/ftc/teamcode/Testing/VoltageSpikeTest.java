@@ -20,6 +20,7 @@ public class VoltageSpikeTest extends LinearOpMode {
                 intake.intakeToggle(0.7);
             }
 
+
             telemetry.addData("Voltage", intake.getVoltage());
 
             telemetry.update();
