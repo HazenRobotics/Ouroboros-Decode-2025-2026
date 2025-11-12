@@ -61,8 +61,8 @@ public class MecanumDrive {
 
         //Issue with rotating
         leftTop.setPower(forward + strafe - rotate);
-        leftBottom.setPower(forward - strafe + rotate);
-        rightTop.setPower(forward - strafe - rotate);
+        leftBottom.setPower(forward - strafe - rotate);
+        rightTop.setPower(forward - strafe + rotate);
         rightBottom.setPower(forward + strafe + rotate);
     }
     //Formula's copied from gmZero

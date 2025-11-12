@@ -18,6 +18,12 @@ public class driveTrain extends LinearOpMode {
         waitForStart();
         while(opModeIsActive()) {
             controller1.update();
+            //For Auto Aim testing
+            driveTrain.drive(0,-0.2, 0);
+            sleep(3000);
+            driveTrain.drive(0,0.2, 0);
+            sleep(3000);
+
             driveTrain.drive(controller1.left_stick_y, controller1.left_stick_x, controller1.right_stick_x);
             telemetry.addData("FL ticks", driveTrain.getFrontLeftTicks());
             telemetry.addData("FR ticks", driveTrain.getFrontRightTicks());
