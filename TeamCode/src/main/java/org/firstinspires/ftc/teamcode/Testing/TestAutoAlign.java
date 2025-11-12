@@ -50,7 +50,7 @@ public class TestAutoAlign extends LinearOpMode {
 
             if(controller1.b.onPress())
             {
-                blueAutoAim = !blueAutoAim; // Cleaner way to toggle boolean
+                blueAutoAim = !blueAutoAim; //toggle boolean
             }
 
             if(blue != null && blueAutoAim){
@@ -58,6 +58,7 @@ public class TestAutoAlign extends LinearOpMode {
                     robot.drive(0, 0, 0.2);
                 } else if(blue.ftcPose.yaw > 30.7){
                     robot.drive(0, 0, -0.2);
+                    //Not sure about strafe if the right power, test it out
                 } else if(blue.ftcPose.x < -29.2){
                     robot.drive(0, 0.2, 0);
                 } else if(blue.ftcPose.x > -18.6){
@@ -70,7 +71,7 @@ public class TestAutoAlign extends LinearOpMode {
                     robot.drive(0, 0, 0);
                 }
             } else {
-                // 4. Stop if the tag is not visible or auto-aim is off
+                //Stop if the tag is not visible or auto-aim is off
                 robot.drive(0, 0, 0);
             }
             controller1.update();
