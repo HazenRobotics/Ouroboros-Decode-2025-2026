@@ -85,15 +85,15 @@ public class RedFarsideCamAuto extends LinearOpMode {
                 telemetry.addLine("Executing path for Tag 22...");
                 waitForStart();
 
-                while(red.ftcPose.y > 275){
+                while(red != null && red.ftcPose.y > 275){
                     camera.update();
                     red = camera.getTagBySpecificId(24);
-                    drive.drive(-0.8,0,0);
+                    drive.drive(-0.6,0,0);
                 }
-                while(red.ftcPose.yaw < -22){
+                while(red != null && red.ftcPose.yaw < -22){
                     camera.update();
                     red = camera.getTagBySpecificId(24);
-                    drive.drive(0,0,0.3);
+                    drive.drive(0,0,0.2);
                 }
                 drive.drive(0,0,0);
 
