@@ -8,38 +8,29 @@ import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.SubSystems.Feeder;
-import org.firstinspires.ftc.teamcode.SubSystems.Intake;
-import org.firstinspires.ftc.teamcode.SubSystems.Shooter;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @Autonomous(name = "BLuePedroAuto")
 public class BluePedroAuto extends LinearOpMode {
     private int pathState;
-    private int shootState;
-
-    private final double v = 1500;
-    Feeder feeder;
-    Shooter shooter;
-    Intake intake;
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
     //Determine all the position by testing it out;
     //starting position
     private final Pose startPose = new Pose(61.77391304347826,4.173913043478263,Math.toRadians(90));
     //Shooting position
-    private final Pose shootingPose = new Pose(60.2,19.199999999999996,Math.toRadians(112));
+    private final Pose shootingPose = new Pose(67.2,22.747826086956522,Math.toRadians(112));
     //Farside 3 balls
     private final Pose firstLine = new Pose(41.321739130434786,35.686956521739134,Math.toRadians(0));
-    private final Pose firstPush = new Pose(18.782608695652172,35.89565217391305,Math.toRadians(0));
+    private final Pose firstPush = new Pose(15.026086956521738,35.89565217391305,Math.toRadians(0));
     private final Pose firstControl = new Pose(72.83478260869565,38.19130434782609);
     //Middle 3 balls
     private final Pose secondLine = new Pose(40.904347826086955,60.313043478260866,Math.toRadians(0));
-    private final Pose secondPush = new Pose(18.782608695652172,60.104347826086965,Math.toRadians(0));
+    private final Pose secondPush = new Pose(14.608695652173914,60.104347826086965,Math.toRadians(0));
     private final Pose secondControl = new Pose(72.20869565217392,65.5304347826087);
     //Last three balls
     private final Pose thirdLine = new Pose(40.48695652173913,84.31304347826088,Math.toRadians(0));
-    private final Pose thirdPush = new Pose(18.782608695652172,83.89565217391304,Math.toRadians(0));
+    private final Pose thirdPush = new Pose(14.817391304347826,83.89565217391304,Math.toRadians(0));
     private final Pose thirdControl = new Pose(75.96521739130435,90.57391304347826);
     private PathChain shoot, firstBall, push1, back1, secondBall, push2, back2, thirdBall, push3, back3;
     public void buildPaths(){
@@ -87,14 +78,10 @@ public class BluePedroAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        feeder = new Feeder(hardwareMap);
-        shooter = new Shooter(hardwareMap, "leftShooter");
-        intake = new Intake(hardwareMap);
 
         pathTimer = new Timer();
         actionTimer = new Timer();
         opmodeTimer = new Timer();
-
         follower = Constants.createFollower(hardwareMap);
         buildPaths();
         follower.setStartingPose(startPose);
@@ -128,10 +115,6 @@ public class BluePedroAuto extends LinearOpMode {
 
     }
     public void autonomousPathupdate(){
-        if (pathState < 100) {
-            // running by default unless shooting
-        }
-
         switch (pathState){
             case 0:
                 follower.followPath(shoot);
