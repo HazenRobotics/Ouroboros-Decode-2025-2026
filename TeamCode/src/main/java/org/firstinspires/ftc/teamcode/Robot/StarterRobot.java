@@ -28,7 +28,7 @@ public class StarterRobot {
     private final double RFEED_DELAY = 1, RLAUNCHER_DELAY = 1, RTRANSFER_DELAY = 1;
     private final double TRANSFER_DELAY = 1.5;
     //Shooter velocity
-    private final double v = 2000;
+    private final double v = 1400;
 
     //timer
     private ElapsedTime timePassed = new ElapsedTime();
