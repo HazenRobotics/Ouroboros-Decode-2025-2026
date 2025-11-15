@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.Transfer;
 import org.firstinspires.ftc.teamcode.LogitechCam;
 import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+@Autonomous(name = "Blue Farside 3 ball launch")
 
 
 public class BlueSideAuto extends LinearOpMode {
@@ -44,47 +45,55 @@ public class BlueSideAuto extends LinearOpMode {
         // Start autonomous
 
             waitForStart();
-//            drive.drive(-0.8,0,0);
-//            sleep(200);
-//            drive.drive(0,0,0.3);
-//            sleep(200);
-//            drive.drive(0,0,0);
-//
-//            robot.shoot();
-//            ElapsedTime timer = new ElapsedTime();
-//            while (opModeIsActive() && timer.seconds() < 4.55) {
-//                robot.updateShooting();
-//            }
-//
-//            robot.load();
-//            timer.reset();
-//            while (opModeIsActive() && timer.seconds() < 2.65) {
-//                robot.updateLoad();
-//            }
-//
-//            robot.shoot();
-//            timer.reset();
-//            while (opModeIsActive() && timer.seconds() < 4.55) {
-//                robot.updateShooting();
-//            }
-//
-//            robot.load();
-//            timer.reset();
-//            while (opModeIsActive() && timer.seconds() < 2.65) {
-//                robot.updateLoad();
-//            }
-//
-//            robot.shoot();
-//            timer.reset();
-//            while (opModeIsActive() && timer.seconds() < 4.55) {
-//                robot.updateShooting();
-//            }
-//            shooter.setVelocity(0);
+            drive.drive(-0.9,0,0);
+            sleep(200);
+            drive.drive(0,0,-0.4);
+            sleep(200);
+            drive.drive(0,0,0);
+
+            robot.shoot();
+
+            ElapsedTime timer = new ElapsedTime();
+            while (opModeIsActive() && timer.seconds() < 4.55) {
+                robot.updateShooting();
+            }
+
+            robot.load();
+            timer.reset();
+            while (opModeIsActive() && timer.seconds() < 2.65) {
+                robot.updateLoad();
+            }
+
+            waitForShooterSpeed();
+            robot.shoot();
+            timer.reset();
+            while (opModeIsActive() && timer.seconds() < 4.55) {
+                robot.updateShooting();
+            }
+            robot.load();
+            timer.reset();
+            while (opModeIsActive() && timer.seconds() < 2.65) {
+                robot.updateLoad();
+            }
+
+            waitForShooterSpeed();
+            robot.shoot();
+            timer.reset();
+            while (opModeIsActive() && timer.seconds() < 4.55) {
+                robot.updateShooting();
+            }
+            shooter.setVelocity(0);
             drive.drive(-0.8,0 ,0);
             sleep(700);
             drive.drive(0,0,0);
             telemetry.update();
         while(opModeIsActive()){
+        }
+    }
+    private void waitForShooterSpeed() {
+        while (opModeIsActive() &&
+                Math.abs(shooter.getVelocity() - 1600) > 50) {
+                    shooter.setVelocity(1600);
         }
     }
 }

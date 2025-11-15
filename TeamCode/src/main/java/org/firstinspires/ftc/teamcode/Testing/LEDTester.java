@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Testing;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -33,7 +34,7 @@ public class LEDTester extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            LED1.setColor();
+            LED1.setColor(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
             // NEXT COLOR
 //            if (gamepad1.a) {
 //                index = (index + 1) % ftcPositions.length;
