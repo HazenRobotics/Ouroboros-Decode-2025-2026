@@ -19,7 +19,7 @@ public class BluePedroAuto extends LinearOpMode {
     //starting position
     private final Pose startPose = new Pose(61.77391304347826,4.173913043478263,Math.toRadians(90));
     //Shooting position
-    private final Pose shootingPose = new Pose(67.2,19.199999999999996,Math.toRadians(112));
+    private final Pose shootingPose = new Pose(60.2,19.199999999999996,Math.toRadians(112));
     //Farside 3 balls
     private final Pose firstLine = new Pose(41.321739130434786,35.686956521739134,Math.toRadians(0));
     private final Pose firstPush = new Pose(18.782608695652172,35.89565217391305,Math.toRadians(0));
@@ -70,10 +70,10 @@ public class BluePedroAuto extends LinearOpMode {
                 .setConstantHeadingInterpolation(Math.toRadians(0))
                 .build();
 
-        back3 = follower.pathBuilder()
-                .addPath(new BezierLine(thirdPush, shootingPose))
-                .setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(112))
-                .build();
+//        back3 = follower.pathBuilder()
+//                .addPath(new BezierLine(thirdPush, shootingPose))
+//                .setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(112))
+//                .build();
     }
 
     @Override

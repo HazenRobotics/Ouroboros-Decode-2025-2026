@@ -28,7 +28,7 @@ public class StarterRobot {
     private final double RFEED_DELAY = 1, RLAUNCHER_DELAY = 1, RTRANSFER_DELAY = 1;
     private final double TRANSFER_DELAY = 1.5;
     //Shooter velocity
-    private final double v = 1400;
+    private final double v = 1500;
 
     //timer
     private ElapsedTime timePassed = new ElapsedTime();
@@ -143,7 +143,7 @@ public class StarterRobot {
         }
         if(elapsed > LOAD_DELAY + 0.5){
             feeder.feed(-0.8);
-            launcher.setVelocity(-400);
+            launcher.setVelocity(-200);
         }
         if(elapsed > LOAD_DELAY + 0.5 + 0.6 ){
             transfer.setServo(-0);

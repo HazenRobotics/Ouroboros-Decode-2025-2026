@@ -45,8 +45,8 @@ public class LEDLights {
         this(hw, "light");
         telemetry=t;
     }
-    public void setColor() {
-        LED1.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLACK);
+    public void setColor(RevBlinkinLedDriver.BlinkinPattern color) {
+        LED1.setPattern(color);
     }
 //    public double setColor(int[] rgb) {
 //        return setColor(rgbToFTC(rgb));
