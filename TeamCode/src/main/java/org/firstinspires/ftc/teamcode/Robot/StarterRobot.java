@@ -10,10 +10,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.MecanumDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.Shooter;
 import org.firstinspires.ftc.teamcode.SubSystems.TankDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.Transfer;
-//import org.firstinspires.ftc.teamcode.utils.ColorSensor;
-import org.firstinspires.ftc.teamcode.utils.ColorSensor;
 import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
-import org.firstinspires.ftc.teamcode.utils.LEDLights;
 
 public class StarterRobot {
     MecanumDrive drive;
@@ -24,19 +21,14 @@ public class StarterRobot {
     Transfer transfer;
     GamepadEvents controller1, controller2;
 
-
-    LEDLights [] lights;
-
-    ColorSensor colorSensor;
-
     //constants
     private final double RPM = 6000, INTAKE_SPEED = 0.8;
-    private final double FEED_DELAY = 2, LAUNCHER_DELAY = 10, LOAD_DELAY = 1.5; //seconds
+    private final double FEED_DELAY = 2, LAUNCHER_DELAY = 3, LOAD_DELAY = 1.5; //seconds
     //Reverse
     private final double RFEED_DELAY = 1, RLAUNCHER_DELAY = 1, RTRANSFER_DELAY = 1;
     private final double TRANSFER_DELAY = 1.5;
     //Shooter velocity
-    private double v = 1900;
+    private final double v = 1500;
 
     //timer
     private ElapsedTime timePassed = new ElapsedTime();
@@ -48,7 +40,7 @@ public class StarterRobot {
     private boolean isTransfering = false;
     private boolean isShooting = false;
     private boolean isLoading = false;
-    private boolean reverse = false, isTransferingAndShooting = false;
+    private boolean reverse = false;
 
     public StarterRobot(HardwareMap hw, GamepadEvents controller1, GamepadEvents controller2)
     {
@@ -61,11 +53,6 @@ public class StarterRobot {
         transfer = new Transfer(hw);
         feeder = new Feeder(hw);
         intake = new Intake(hw);
-        lights = new LEDLights[3];
-        lights[0] = new LEDLights(hw, "LED1");
-        lights[1] = new LEDLights(hw, "LED2");
-        lights[2] = new LEDLights(hw, "LED3");
-        colorSensor = new ColorSensor(hw);
     }
 
     public void drive() {
@@ -82,77 +69,16 @@ public class StarterRobot {
         intake.intakeToggle(INTAKE_SPEED);
     }
 
-    public void increaseV(){
-        v += 20;
-    }
-
-    public void decreaseV() {
-        v -= 20;
-    }
-
     //shooting
     public void shoot() {
-        ElapsedTime timer = new ElapsedTime();
-//        isShooting = true;
+        isShooting = true;
         shootTime = timePassed.seconds();
+
         flap.frontGo();
         flap.backBlock();
         launcher.setVelocity(v);
-        if(launcher.getVelocity() > v || shootTime > LAUNCHER_DELAY) {
-            while (timer.seconds()< 1 || launcher.getCurrent() > 3.5) {
-                feeder.feed(0.8);
-            }
-            timer.reset();
-            while (timer.seconds() < 0.5) {
-                feeder.feed(-0.8);
-            }
-            feeder.feed(0);
-            timer.reset();
-        }
     }
 
-    public void shootClose() {
-//        isShooting = true;
-        ElapsedTime timer = new ElapsedTime();
-
-        shootTime = timePassed.seconds();
-        flap.frontGo();
-        flap.backBlock();
-        launcher.setVelocity(v-800);
-        if(launcher.getVelocity() > v-800 || shootTime > LAUNCHER_DELAY) {
-            while (timer.seconds()< 1 || launcher.getCurrent() > 3.5) {
-                feeder.feed(0.8);
-            }
-            timer.reset();
-            while (timer.seconds() < 0.5) {
-                feeder.feed(-0.8);
-            }
-            feeder.feed(0);
-            timer.reset();
-        }
-    }
-
-
-    public void transferAndShoot() {
-        if(!isTransferingAndShooting) {
-            transfer.setMotor(1);
-            transfer.setServo(-1);
-            launcher.setVelocity(v);
-            flap.frontBlock();
-        }
-        else{
-            transfer.setMotor(0);
-            transfer.setServo(0);
-            launcher.setVelocity(0);
-        }
-        isTransferingAndShooting = !isTransferingAndShooting;
-    }
-    public void setLauncher() {
-        launcher.setVelocity(v);
-    }
-    public void setLauncherToZero() {
-        launcher.setVelocity(0);
-    }
 
     public void updateShooting() {
         if (!isShooting) return;
@@ -175,15 +101,10 @@ public class StarterRobot {
         isTransfering = true;
         transferTime = timePassed.seconds();
 
-        flap.frontBlock();
-        launcher.setVelocity(v-500);
         transfer.setMotor(1);
         transfer.setServo(-1);
-        feeder.feed(1);
-
-        while (timePassed.seconds() < 1) {
-            transfer.setServo(-1);
-        }
+        launcher.setVelocity(1300);
+        flap.frontBlock();
     }
 
     public void updateTransfer() {
@@ -204,11 +125,11 @@ public class StarterRobot {
             isTransfering = false;
         }
     }
-    // Sends ball down
+
     public void load(){
         isLoading = true;
         flap.backDown();
-//        launcher.setVelocity(400);
+        launcher.setVelocity(400);
         loadTime = timePassed.seconds();
     }
 
@@ -222,7 +143,7 @@ public class StarterRobot {
         }
         if(elapsed > LOAD_DELAY + 0.5){
             feeder.feed(-0.8);
-//            launcher.setVelocity(-200);
+            launcher.setVelocity(-200);
         }
         if(elapsed > LOAD_DELAY + 0.5 + 0.6 ){
             transfer.setServo(-0);
@@ -233,7 +154,7 @@ public class StarterRobot {
         }
     }
 
-    public void reverseTransfer(){
+    public void reverseTrasfer(){
         reverse = true;
         flap.backBlock();
         flap.frontBlock();
@@ -259,43 +180,6 @@ public class StarterRobot {
             feeder.reset();
             reverse = false;
         }
-    }
-    public void setServo() {
-        transfer.setServo(-1);
-    }
-
-    public void setMotor(){
-        transfer.setMotor(-1);
-    }
-    // To Do
-    public void setLEDs() {
-        LEDLights [] lights = new LEDLights[3];
-//        lights[0] = new LEDLights();
-//        lights[0].setColor(colorSensor.getColor());
-    }
-
-
-
-
-// //  public void setMotorToZero() {
-//
-//    }
-
-    public void setFeeder() {
-        feeder.feed(-0.8);
-    }
-    public void setFeederToZero() {
-        feeder.feed(0);
-    }
-    public void setMotorToZero() {
-        transfer.setMotor(0);
-    }
-
-    public void setDefaultPower() {
-    //    launcher.setDefaultPower();
-    }
-    public void setDefaultPowerToZero() {
-       // launcher.setDefaultPowerToZero();
     }
 
 }
