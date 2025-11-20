@@ -78,7 +78,12 @@ public class StarterRobot {
         flap.backBlock();
         launcher.setVelocity(v);
     }
-
+    public void setLauncher() {
+        launcher.setVelocity(v);
+    }
+    public void setLauncherToZero() {
+        launcher.setVelocity(0);
+    }
 
     public void updateShooting() {
         if (!isShooting) return;
@@ -154,7 +159,7 @@ public class StarterRobot {
         }
     }
 
-    public void reverseTrasfer(){
+    public void reverseTransfer(){
         reverse = true;
         flap.backBlock();
         flap.frontBlock();
@@ -180,6 +185,33 @@ public class StarterRobot {
             feeder.reset();
             reverse = false;
         }
+    }
+    public void setServo() {
+        transfer.setServo(-1);
+    }
+
+    public void setMotor(){
+        transfer.setMotor(-1);
+    }
+// //  public void setMotorToZero() {
+//
+//    }
+
+    public void setFeeder() {
+        feeder.feed(0.8);
+    }
+    public void setFeederToZero() {
+        feeder.feed(0);
+    }
+    public void setMotorToZero() {
+        transfer.setMotor(0);
+    }
+
+    public void setDefaultPower() {
+    //    launcher.setDefaultPower();
+    }
+    public void setDefaultPowerToZero() {
+       // launcher.setDefaultPowerToZero();
     }
 
 }

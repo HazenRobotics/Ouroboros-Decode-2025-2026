@@ -45,10 +45,10 @@ public class BlueSideAuto extends LinearOpMode {
         // Start autonomous
 
             waitForStart();
-            drive.drive(-0.9,0,0);
+            drive.drive(-0.5,0,0);
             sleep(200);
-            drive.drive(0,0,-0.4);
-            sleep(200);
+            drive.drive(0,0,-0.2);
+            sleep(50);
             drive.drive(0,0,0);
 
             robot.shoot();
@@ -83,8 +83,8 @@ public class BlueSideAuto extends LinearOpMode {
                 robot.updateShooting();
             }
             shooter.setVelocity(0);
-            drive.drive(-0.8,0 ,0);
-            sleep(700);
+            drive.drive(-0.4,0 ,0);
+            sleep(300);
             drive.drive(0,0,0);
             telemetry.update();
         while(opModeIsActive()){
@@ -92,8 +92,8 @@ public class BlueSideAuto extends LinearOpMode {
     }
     private void waitForShooterSpeed() {
         while (opModeIsActive() &&
-                Math.abs(shooter.getVelocity() - 1600) > 50) {
-                    shooter.setVelocity(1600);
+                Math.abs(shooter.getVelocity() - 1800) > 50) {
+                    shooter.setVelocity(1800);
         }
     }
 }
