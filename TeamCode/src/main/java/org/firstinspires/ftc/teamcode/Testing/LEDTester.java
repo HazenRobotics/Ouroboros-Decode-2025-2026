@@ -10,13 +10,18 @@ import java.util.Map;
 
 @TeleOp(name="LED Lights Tester", group="Tests")
 public class LEDTester extends LinearOpMode {
-
+    LEDLights [] lights;
     @Override
     public void runOpMode() throws InterruptedException {
+        lights = new LEDLights[3];
+        lights[0] = new LEDLights(hardwareMap, "LED1");
+        lights[1] = new LEDLights(hardwareMap, "LED2");
+        lights[2] = new LEDLights(hardwareMap, "LED3");
 
-        LEDLights LED1 = new LEDLights(hardwareMap, "LED1");
-//        LEDLights LED2 = new LEDLights(hardwareMap, "LED2");
-//        LEDLights LED3 = new LEDLights(hardwareMap, "LED3");
+        lights[0].setColor(0.722, "Violet");
+        lights[1].setColor(0.500, "Green");
+        lights[2].setColor(0.722, "Violet");
+
 
         // Convert the static colorScale map into an array for easy stepping
 //        Map<Double, int[]> colorMap = LEDLights.getColorScale();
@@ -24,17 +29,14 @@ public class LEDTester extends LinearOpMode {
 //
 //        int index = 0;
 
-        telemetry.addLine("LED Lights Tester Loaded");
-        telemetry.addLine("Press A = Next Color");
-        telemetry.addLine("Press B = Previous Color");
-        telemetry.addLine("Press X = Show Random RGB Test");
         telemetry.update();
 
         waitForStart();
 
         while (opModeIsActive()) {
+            LEDLights [] lights = new LEDLights[3];
 
-            LED1.setColor(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
+
             // NEXT COLOR
 //            if (gamepad1.a) {
 //                index = (index + 1) % ftcPositions.length;

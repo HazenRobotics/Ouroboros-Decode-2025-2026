@@ -36,11 +36,26 @@ public class StarterRobotTeleOP extends LinearOpMode {
                 robot.transfer();
             }
             if(controller1.a.onPress()) {
-                robot.reverseTrasfer();
+                robot.reverseTransfer();
             }
             if(controller1.x.onPress()){
                 robot.load();
             }
+
+            if(controller2.a.onPress()) {
+                robot.setLauncher();
+            }
+
+            if(controller2.x.onPress()) {
+                robot.setFeeder();
+            }
+            if(controller2.b.onPress()) {
+                robot.setLauncherToZero();
+            }
+            if(controller2.y.onPress()){
+                robot.setFeederToZero();
+            }
+
             robot.updateReverseTransfer();
             robot.updateLoad();
 //            robot.updateShooting();
