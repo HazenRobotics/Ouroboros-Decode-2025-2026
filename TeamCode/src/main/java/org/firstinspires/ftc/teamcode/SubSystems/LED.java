@@ -1,4 +1,3 @@
-/*
 package org.firstinspires.ftc.teamcode.SubSystems;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
@@ -11,9 +10,9 @@ public class LED {
     private final String name = "led";
 
     RevBlinkinLedDriver.BlinkinPattern[] lights = {
-            RevBlinkinLedDriver.BlinkinPattern.WHITE,
-            RevBlinkinLedDriver.BlinkinPattern.DARK_GREEN,
-            RevBlinkinLedDriver.BlinkinPattern.RED,
+            RevBlinkinLedDriver.BlinkinPattern.YELLOW,
+            RevBlinkinLedDriver.BlinkinPattern.VIOLET,
+            RevBlinkinLedDriver.BlinkinPattern.GREEN,
     };
 
     public LED(HardwareMap hw)
@@ -33,4 +32,3 @@ public class LED {
 //        led.setPattern();
 //    }
 }
-*/
