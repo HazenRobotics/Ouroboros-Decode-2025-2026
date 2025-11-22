@@ -18,9 +18,9 @@ public class LEDTester extends LinearOpMode {
         lights[1] = new LEDLights(hardwareMap, "LED2");
         lights[2] = new LEDLights(hardwareMap, "LED3");
 
-        lights[0].setColor(0.722, "Violet");
-        lights[1].setColor(0.500, "Green");
-        lights[2].setColor(0.722, "Violet");
+        lights[0].setColor(0.722);
+        lights[1].setColor(0.500);
+        lights[2].setColor(0.722);
 
 
         // Convert the static colorScale map into an array for easy stepping

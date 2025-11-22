@@ -14,7 +14,6 @@ import java.util.Map;
 
 public class LEDLights {
     Servo LED;
-    String stringColor;
     Telemetry telemetry;
 
     public LEDLights(HardwareMap hw, String name) {
@@ -26,8 +25,7 @@ public class LEDLights {
         telemetry = t;
     }
 
-    public void setColor(double color, String theColor) {
+    public void setColor(double color) {
         LED.setPosition(color);
-        stringColor = theColor;
     }
 }
