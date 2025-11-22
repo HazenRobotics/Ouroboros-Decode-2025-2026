@@ -42,6 +42,7 @@ public class StarterRobotTeleOP extends LinearOpMode {
                 robot.load();
             }
 
+            // Driver 2 controllers made on the spot at 11/16 comp
             if(controller2.a.onPress()) {
                 robot.setLauncher();
             }
@@ -54,6 +55,12 @@ public class StarterRobotTeleOP extends LinearOpMode {
             }
             if(controller2.y.onPress()){
                 robot.setFeederToZero();
+            }
+            if(controller2.dpad_up.onPress()) {
+                robot.increaseV();
+            }
+            if(controller2.dpad_down.onPress()) {
+                robot.decreaseV();
             }
 
             robot.updateReverseTransfer();
