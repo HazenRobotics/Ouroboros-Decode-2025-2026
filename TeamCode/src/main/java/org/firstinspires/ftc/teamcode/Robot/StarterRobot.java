@@ -10,7 +10,9 @@ import org.firstinspires.ftc.teamcode.SubSystems.MecanumDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.Shooter;
 import org.firstinspires.ftc.teamcode.SubSystems.TankDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.Transfer;
+import org.firstinspires.ftc.teamcode.utils.ColorSensor;
 import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
+import org.firstinspires.ftc.teamcode.utils.LEDLights;
 
 public class StarterRobot {
     MecanumDrive drive;
@@ -21,6 +23,10 @@ public class StarterRobot {
     Transfer transfer;
     GamepadEvents controller1, controller2;
 
+    LEDLights [] lights;
+
+    ColorSensor colorSensor;
+
     //constants
     private final double RPM = 6000, INTAKE_SPEED = 0.8;
     private final double FEED_DELAY = 2, LAUNCHER_DELAY = 3, LOAD_DELAY = 1.5; //seconds
@@ -28,7 +34,7 @@ public class StarterRobot {
     private final double RFEED_DELAY = 1, RLAUNCHER_DELAY = 1, RTRANSFER_DELAY = 1;
     private final double TRANSFER_DELAY = 1.5;
     //Shooter velocity
-    private final double v = 1500;
+    private double v = 1500;
 
     //timer
     private ElapsedTime timePassed = new ElapsedTime();
@@ -40,7 +46,7 @@ public class StarterRobot {
     private boolean isTransfering = false;
     private boolean isShooting = false;
     private boolean isLoading = false;
-    private boolean reverse = false;
+    private boolean reverse = false, isTransferingAndShooting = false;
 
     public StarterRobot(HardwareMap hw, GamepadEvents controller1, GamepadEvents controller2)
     {
@@ -53,6 +59,12 @@ public class StarterRobot {
         transfer = new Transfer(hw);
         feeder = new Feeder(hw);
         intake = new Intake(hw);
+        lights = new LEDLights[3];
+        lights[0] = new LEDLights(hw, "LED1");
+        lights[1] = new LEDLights(hw, "LED2");
+        lights[2] = new LEDLights(hw, "LED3");
+        colorSensor = new ColorSensor();
+        colorSensor.init(hw);
     }
 
     public void drive() {
@@ -69,14 +81,39 @@ public class StarterRobot {
         intake.intakeToggle(INTAKE_SPEED);
     }
 
+    public void increaseV(){
+        v += 20;
+    }
+
+    public void decreaseV() {
+        v -= 20;
+    }
+
     //shooting
     public void shoot() {
-        isShooting = true;
+//        isShooting = true;
         shootTime = timePassed.seconds();
-
         flap.frontGo();
         flap.backBlock();
         launcher.setVelocity(v);
+        if(launcher.getVelocity() > v || shootTime > LAUNCHER_DELAY) {
+            feeder.feed();
+        }
+    }
+
+    public void transferAndShoot() {
+        if(!isTransferingAndShooting) {
+            transfer.setMotor(1);
+            transfer.setServo(-1);
+            launcher.setVelocity(v);
+            flap.frontBlock();
+        }
+        else{
+            transfer.setMotor(0);
+            transfer.setServo(0);
+            launcher.setVelocity(0);
+        }
+        isTransferingAndShooting = !isTransferingAndShooting;
     }
     public void setLauncher() {
         launcher.setVelocity(v);
@@ -130,11 +167,11 @@ public class StarterRobot {
             isTransfering = false;
         }
     }
-
+    // Sends ball down
     public void load(){
         isLoading = true;
         flap.backDown();
-        launcher.setVelocity(400);
+//        launcher.setVelocity(400);
         loadTime = timePassed.seconds();
     }
 
@@ -148,7 +185,7 @@ public class StarterRobot {
         }
         if(elapsed > LOAD_DELAY + 0.5){
             feeder.feed(-0.8);
-            launcher.setVelocity(-200);
+//            launcher.setVelocity(-200);
         }
         if(elapsed > LOAD_DELAY + 0.5 + 0.6 ){
             transfer.setServo(-0);
@@ -193,6 +230,16 @@ public class StarterRobot {
     public void setMotor(){
         transfer.setMotor(-1);
     }
+    // To Do
+    public void setLEDs() {
+        LEDLights [] lights = new LEDLights[3];
+//        lights[0] = new LEDLights();
+//        lights[0].setColor(colorSensor.getColor());
+    }
+
+
+
+
 // //  public void setMotorToZero() {
 //
 //    }
