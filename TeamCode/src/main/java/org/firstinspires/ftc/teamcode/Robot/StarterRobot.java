@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.MecanumDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.Shooter;
 import org.firstinspires.ftc.teamcode.SubSystems.TankDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.Transfer;
-import org.firstinspires.ftc.teamcode.utils.ColorSensor;
+//import org.firstinspires.ftc.teamcode.utils.ColorSensor;
 import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
 import org.firstinspires.ftc.teamcode.utils.LEDLights;
 
@@ -25,7 +25,7 @@ public class StarterRobot {
 
     LEDLights [] lights;
 
-    ColorSensor colorSensor;
+//    ColorSensor colorSensor;
 
     //constants
     private final double RPM = 6000, INTAKE_SPEED = 0.8;
@@ -63,8 +63,8 @@ public class StarterRobot {
         lights[0] = new LEDLights(hw, "LED1");
         lights[1] = new LEDLights(hw, "LED2");
         lights[2] = new LEDLights(hw, "LED3");
-        colorSensor = new ColorSensor();
-        colorSensor.init(hw);
+//        colorSensor = new ColorSensor();
+//        colorSensor.init(hw);
     }
 
     public void drive() {
