@@ -14,7 +14,7 @@ public class ColorSensor {
     }
     DigitalChannel pin0, pin1;
     public ColorSensor(HardwareMap hw) {
-        this(hw, "color", "colo1");
+        this(hw, "color0", "color1");
     }
 
     public ColorSensor(HardwareMap hw, String pin0Name, String pin1Name){
@@ -27,12 +27,28 @@ public class ColorSensor {
 // pin0 = purple
 // pin1 = green
         if (col0){
-            return Color.Green;
-        }
-        else if(col1){
             return Color.Purple;
         }
+        else if(col1){
+            return Color.Green;
+        }
         return Color.None;
+    }
+
+    public DigitalChannel getPin0() {
+        return pin0;
+    }
+    public DigitalChannel getPin1() {
+        return pin1;
+    }
+
+    public String toString(){
+        return String.format("Pin 0: %b\n"+
+                        "Pin 1: %b\n" +
+                        "Color: %s\n",
+                pin0.getState(),
+                pin1.getState(),
+                getColor());
     }
 
 
