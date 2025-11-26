@@ -15,6 +15,7 @@ public class Transfer {
     public void setMotor(double power){
         transfer.setPower(power);
     }
+
     public void setServo(double power){
         servo.setPower(power);
     }
