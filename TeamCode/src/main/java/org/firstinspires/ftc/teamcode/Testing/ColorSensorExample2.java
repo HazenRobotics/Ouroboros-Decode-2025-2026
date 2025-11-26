@@ -15,7 +15,7 @@ public class ColorSensorExample2 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         ColorRangefinder crf = new ColorRangefinder(hardwareMap.get(RevColorSensorV3.class, "Color"));
-        ColorSensor colorSensor = new ColorSensor(hardwareMap);
+ //      ColorSensor colorSensor = new ColorSensor(hardwareMap);
         waitForStart();
         /* Using this example configuration, you can detect both artifact colors based on which pin is reading true:
             pin0 --> purple
@@ -23,15 +23,15 @@ public class ColorSensorExample2 extends LinearOpMode {
 
         // Changed to 20 instead of 10
         crf.setPin0Digital(ColorRangefinder.DigitalMode.HSV, 160 / 360.0 * 255, 190 / 360.0 * 255); // purple
-        crf.setPin0DigitalMaxDistance(ColorRangefinder.DigitalMode.HSV, 20); // 10mm or closer requirement
+        crf.setPin0DigitalMaxDistance(ColorRangefinder.DigitalMode.HSV, 30); // 10mm or closer requirement
         crf.setPin1Digital(ColorRangefinder.DigitalMode.HSV, 110 / 360.0 * 255, 140 / 360.0 * 255); // green
-        crf.setPin1DigitalMaxDistance(ColorRangefinder.DigitalMode.HSV, 20); // 10mm or closer requirement
+        crf.setPin1DigitalMaxDistance(ColorRangefinder.DigitalMode.HSV, 30); // 10mm or closer requirement
 
 
-        while(opModeIsActive()) {
-            telemetry.addData("Color Enum", colorSensor.getColor());
-        }
-        stop();
+//        while(opModeIsActive()) {
+//            telemetry.addData("Color Enum", colorSensor.getColor());
+//        }
+//        stop();
     }
 }
 /**
