@@ -43,7 +43,7 @@ public class StarterRobotTeleOP extends LinearOpMode {
             }
             robot.updateReverseTransfer();
             robot.updateLoad();
-            robot.updateShooting();
+//            robot.updateShooting();
             robot.updateTransfer();
             controller1.update();
             controller2.update();
