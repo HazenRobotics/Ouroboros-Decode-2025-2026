@@ -15,6 +15,8 @@ public class StarterRobotTeleOP extends LinearOpMode {
     StarterRobot robot;
     GamepadEvents controller1, controller2;
 
+    boolean shootFar = true;
+
     @Override
     public void runOpMode() throws InterruptedException {
         controller1 = new GamepadEvents(gamepad1);
@@ -40,6 +42,9 @@ public class StarterRobotTeleOP extends LinearOpMode {
             }
             if(controller1.x.onPress()){
                 robot.load();
+            }
+            if(controller1.y.onPress()) {
+                robot.shootClose();
             }
 
             // Driver 2 controllers made on the spot at 11/16 comp
