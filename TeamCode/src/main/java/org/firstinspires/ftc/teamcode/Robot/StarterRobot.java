@@ -101,6 +101,18 @@ public class StarterRobot {
         }
     }
 
+    public void shootClose() {
+//        isShooting = true;
+        shootTime = timePassed.seconds();
+        flap.frontGo();
+        flap.backBlock();
+        launcher.setVelocity(v-800);
+        if(launcher.getVelocity() > (v-800) || shootTime > LAUNCHER_DELAY) {
+            feeder.feed();
+        }
+    }
+
+
     public void transferAndShoot() {
         if(!isTransferingAndShooting) {
             transfer.setMotor(1);
@@ -245,7 +257,7 @@ public class StarterRobot {
 //    }
 
     public void setFeeder() {
-        feeder.feed(0.8);
+        feeder.feed(-0.8);
     }
     public void setFeederToZero() {
         feeder.feed(0);
