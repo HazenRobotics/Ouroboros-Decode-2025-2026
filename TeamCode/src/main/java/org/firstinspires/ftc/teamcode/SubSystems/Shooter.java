@@ -177,6 +177,8 @@ public class Shooter {
             return "Left Shooter: " + leftMotor.getPower();
         }
     }
-
+    public double getCurrent() {
+        return leftMotor.getCurrent(CurrentUnit.AMPS);
+    }
 
 }

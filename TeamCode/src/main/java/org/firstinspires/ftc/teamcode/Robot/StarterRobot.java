@@ -91,13 +91,22 @@ public class StarterRobot {
 
     //shooting
     public void shoot() {
+        ElapsedTime timer = new ElapsedTime();
 //        isShooting = true;
         shootTime = timePassed.seconds();
         flap.frontGo();
         flap.backBlock();
         launcher.setVelocity(v);
         if(launcher.getVelocity() > v || shootTime > LAUNCHER_DELAY) {
-            feeder.feed();
+            while(timer.seconds()< 4 || launcher.getCurrent() > 3.5) {
+                feeder.feed(0.8);
+            }
+            timer.reset();
+            while(timer.seconds() < 1) {
+                feeder.feed(-0.8);
+            }
+            feeder.feed(0);
+            timer.reset();
         }
     }
 
