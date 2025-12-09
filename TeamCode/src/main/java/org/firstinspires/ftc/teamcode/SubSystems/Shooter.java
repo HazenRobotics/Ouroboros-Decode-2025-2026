@@ -10,6 +10,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+
 public class Shooter {
     //Designers may test multiple motors
     //this class must be as modular as possible
@@ -172,6 +174,8 @@ public class Shooter {
             return "Left Shooter: " + leftMotor.getPower();
         }
     }
-
+    public double getCurrent() {
+        return leftMotor.getCurrent(CurrentUnit.AMPS);
+    }
 
 }

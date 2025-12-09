@@ -83,6 +83,7 @@ public class StarterRobotTeleOP extends LinearOpMode {
             telemetry.addData("Shooter Voltage", shooter.getVoltageNormalizedVelocity(1800));
             telemetry.addData("Voltage:", shooter.getVoltage());
             telemetry.addData("Velocity", shooter.getVelocity());
+            telemetry.addData("Current", shooter.getCurrent());
             telemetry.update();
 
         }
