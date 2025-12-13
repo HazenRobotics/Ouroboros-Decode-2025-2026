@@ -9,9 +9,9 @@ public class Flap {
     private double frontPosition;
     private double backPosition;
     private double backStop = 0.406;
-    private double backDown = 0.2995;
-    private double frontDown = 0.4434;
-    private double frontUp = 0.222;
+    private double backDown = 0.2895;
+    private double frontDown = 0.6516;
+    private double frontUp = 0.4501;
     public Flap(HardwareMap hw, String frontName, String backName){
         frontFlap = hw.get(Servo.class, frontName);
         backFlap = hw.get(Servo.class, backName);
