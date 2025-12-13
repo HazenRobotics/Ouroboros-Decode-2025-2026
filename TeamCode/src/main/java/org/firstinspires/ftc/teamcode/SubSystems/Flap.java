@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.SubSystems;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+//
 public class Flap {
     Servo frontFlap, backFlap;
     private double position;
