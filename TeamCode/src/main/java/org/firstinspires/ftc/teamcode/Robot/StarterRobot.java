@@ -11,7 +11,6 @@ import org.firstinspires.ftc.teamcode.SubSystems.Shooter;
 import org.firstinspires.ftc.teamcode.SubSystems.TankDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.Transfer;
 //import org.firstinspires.ftc.teamcode.utils.ColorSensor;
-import org.firstinspires.ftc.teamcode.utils.ColorSensor;
 import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
 import org.firstinspires.ftc.teamcode.utils.LEDLights;
 
@@ -24,19 +23,18 @@ public class StarterRobot {
     Transfer transfer;
     GamepadEvents controller1, controller2;
 
-
     LEDLights [] lights;
 
-    ColorSensor colorSensor;
+//    ColorSensor colorSensor;
 
     //constants
     private final double RPM = 6000, INTAKE_SPEED = 0.8;
-    private final double FEED_DELAY = 2, LAUNCHER_DELAY = 10, LOAD_DELAY = 1.5; //seconds
+    private final double FEED_DELAY = 2, LAUNCHER_DELAY = 3, LOAD_DELAY = 1.5; //seconds
     //Reverse
     private final double RFEED_DELAY = 1, RLAUNCHER_DELAY = 1, RTRANSFER_DELAY = 1;
     private final double TRANSFER_DELAY = 1.5;
     //Shooter velocity
-    private double v = 1900;
+    private double v = 1500;
 
     //timer
     private ElapsedTime timePassed = new ElapsedTime();
@@ -65,7 +63,8 @@ public class StarterRobot {
         lights[0] = new LEDLights(hw, "LED1");
         lights[1] = new LEDLights(hw, "LED2");
         lights[2] = new LEDLights(hw, "LED3");
-        colorSensor = new ColorSensor(hw);
+//        colorSensor = new ColorSensor();
+//        colorSensor.init(hw);
     }
 
     public void drive() {
@@ -92,46 +91,15 @@ public class StarterRobot {
 
     //shooting
     public void shoot() {
-        ElapsedTime timer = new ElapsedTime();
 //        isShooting = true;
         shootTime = timePassed.seconds();
         flap.frontGo();
         flap.backBlock();
         launcher.setVelocity(v);
         if(launcher.getVelocity() > v || shootTime > LAUNCHER_DELAY) {
-            while (timer.seconds()< 1 || launcher.getCurrent() > 3.5) {
-                feeder.feed(0.8);
-            }
-            timer.reset();
-            while (timer.seconds() < 0.5) {
-                feeder.feed(-0.8);
-            }
-            feeder.feed(0);
-            timer.reset();
+            feeder.feed();
         }
     }
-
-    public void shootClose() {
-//        isShooting = true;
-        ElapsedTime timer = new ElapsedTime();
-
-        shootTime = timePassed.seconds();
-        flap.frontGo();
-        flap.backBlock();
-        launcher.setVelocity(v-800);
-        if(launcher.getVelocity() > v-800 || shootTime > LAUNCHER_DELAY) {
-            while (timer.seconds()< 1 || launcher.getCurrent() > 3.5) {
-                feeder.feed(0.8);
-            }
-            timer.reset();
-            while (timer.seconds() < 0.5) {
-                feeder.feed(-0.8);
-            }
-            feeder.feed(0);
-            timer.reset();
-        }
-    }
-
 
     public void transferAndShoot() {
         if(!isTransferingAndShooting) {
@@ -175,15 +143,10 @@ public class StarterRobot {
         isTransfering = true;
         transferTime = timePassed.seconds();
 
-        flap.frontBlock();
-        launcher.setVelocity(v-500);
         transfer.setMotor(1);
         transfer.setServo(-1);
-        feeder.feed(1);
-
-        while (timePassed.seconds() < 1) {
-            transfer.setServo(-1);
-        }
+        launcher.setVelocity(1300);
+        flap.frontBlock();
     }
 
     public void updateTransfer() {
@@ -282,7 +245,7 @@ public class StarterRobot {
 //    }
 
     public void setFeeder() {
-        feeder.feed(-0.8);
+        feeder.feed(0.8);
     }
     public void setFeederToZero() {
         feeder.feed(0);

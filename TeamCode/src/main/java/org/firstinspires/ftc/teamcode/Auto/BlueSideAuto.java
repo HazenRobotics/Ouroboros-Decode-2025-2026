@@ -26,7 +26,6 @@ public class BlueSideAuto extends LinearOpMode {
     Shooter shooter;
     Transfer transfer;
     StarterRobot robot;
-    private final double intakePower = 0.8;
     private final double v = 1900;
 
     public void runOpMode() throws InterruptedException {
@@ -44,7 +43,6 @@ public class BlueSideAuto extends LinearOpMode {
 
 
         // Start autonomous
-            //It goes backwards for some reason and then goes forward
 
             waitForStart();
             drive.drive(-0.5,0,0);
@@ -53,42 +51,50 @@ public class BlueSideAuto extends LinearOpMode {
             sleep(50);
             drive.drive(0,0,0);
 
+            robot.shoot();
+
             ElapsedTime timer = new ElapsedTime();
-            while(timer.seconds() < 7) {
-                shooter.setVelocity(v);
-            }
-            timer.reset();
-            robot.shoot();
-            while(timer.seconds() < 2) {
-                // wait
-            }
-            timer.reset();
-            flap.backDown();
-            robot.shoot();
-            while(timer.seconds() <2) {
-                // Wait
-            }
-            timer.reset();
-            robot.shoot();
-            while(timer.seconds() < 2) {
-
+            while (opModeIsActive() && timer.seconds() < 4.55) {
+                robot.updateShooting();
             }
 
+            robot.load();
+            timer.reset();
+            while (opModeIsActive() && timer.seconds() < 2.65) {
+                robot.updateLoad();
+            }
+
+            waitForShooterSpeed();
+            robot.shoot();
+            timer.reset();
+            while (opModeIsActive() && timer.seconds() < 4.55) {
+                robot.updateShooting();
+            }
+            robot.load();
+            timer.reset();
+            while (opModeIsActive() && timer.seconds() < 2.65) {
+                robot.updateLoad();
+            }
+
+            waitForShooterSpeed();
+            robot.shoot();
+            timer.reset();
+            while (opModeIsActive() && timer.seconds() < 4.55) {
+                robot.updateShooting();
+            }
             shooter.setVelocity(0);
             drive.drive(-0.4,0 ,0);
             sleep(300);
             drive.drive(0,0,0);
             telemetry.update();
-            while(opModeIsActive()){
-
-            }
+        while(opModeIsActive()){
         }
-//    private boolean waitForShooterSpeed() {
-//        boolean ok = false;
-//        while (opModeIsActive() &&
-//                Math.abs(shooter.getVelocity() - 1800) > 50) {
-//                    shooter.setVelocity(1800);
-//        }
-//    }
+    }
+    private void waitForShooterSpeed() {
+        while (opModeIsActive() &&
+                Math.abs(shooter.getVelocity() - 1800) > 50) {
+                    shooter.setVelocity(1800);
+        }
+    }
 }
 

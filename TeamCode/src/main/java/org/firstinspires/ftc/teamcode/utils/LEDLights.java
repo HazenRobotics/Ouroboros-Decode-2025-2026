@@ -13,19 +13,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LEDLights {
-    public static final double GREEN_WEIGHT = 0.500;
-    public static final double PURPLE_WEIGHT = 0.722;
     Servo LED;
     Telemetry telemetry;
-
-
 
     public LEDLights(HardwareMap hw, String name) {
         LED = hw.get(Servo.class, name);
     }
 
     public LEDLights(HardwareMap hw, Telemetry t) {
-// Error        this(hw, "light");
+        this(hw, "light");
         telemetry = t;
     }
 

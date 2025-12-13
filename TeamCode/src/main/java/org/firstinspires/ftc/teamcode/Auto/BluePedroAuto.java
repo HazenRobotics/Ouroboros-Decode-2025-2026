@@ -8,20 +8,11 @@ import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.SubSystems.Feeder;
-import org.firstinspires.ftc.teamcode.SubSystems.Intake;
-import org.firstinspires.ftc.teamcode.SubSystems.Shooter;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @Autonomous(name = "BLuePedroAuto")
 public class BluePedroAuto extends LinearOpMode {
     private int pathState;
-    private int shootState;
-
-    private final double v = 1500;
-    Feeder feeder;
-    Shooter shooter;
-    Intake intake;
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
     //Determine all the position by testing it out;
@@ -79,22 +70,18 @@ public class BluePedroAuto extends LinearOpMode {
                 .setConstantHeadingInterpolation(Math.toRadians(0))
                 .build();
 
-        back3 = follower.pathBuilder()
-                .addPath(new BezierLine(thirdPush, shootingPose))
-                .setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(112))
-                .build();
+//        back3 = follower.pathBuilder()
+//                .addPath(new BezierLine(thirdPush, shootingPose))
+//                .setLinearHeadingInterpolation(Math.toRadians(0),Math.toRadians(112))
+//                .build();
     }
 
     @Override
     public void runOpMode() {
-        feeder = new Feeder(hardwareMap);
-        shooter = new Shooter(hardwareMap, "leftShooter");
-        intake = new Intake(hardwareMap);
 
         pathTimer = new Timer();
         actionTimer = new Timer();
         opmodeTimer = new Timer();
-
         follower = Constants.createFollower(hardwareMap);
         buildPaths();
         follower.setStartingPose(startPose);
@@ -128,10 +115,6 @@ public class BluePedroAuto extends LinearOpMode {
 
     }
     public void autonomousPathupdate(){
-        if (pathState < 100) {
-            // running by default unless shooting
-        }
-
         switch (pathState){
             case 0:
                 follower.followPath(shoot);
