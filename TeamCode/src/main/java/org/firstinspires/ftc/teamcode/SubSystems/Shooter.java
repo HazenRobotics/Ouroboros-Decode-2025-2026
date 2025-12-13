@@ -45,6 +45,7 @@ public class Shooter {
         voltageSensor = hw.voltageSensor.iterator().next();
         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        leftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
     public double getVelocity(){
         return leftMotor.getVelocity();
