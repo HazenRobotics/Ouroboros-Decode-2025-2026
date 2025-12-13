@@ -11,6 +11,7 @@ public class Transfer {
     public Transfer(HardwareMap hw){
         transfer = hw.get(DcMotorEx.class, "transfer");
         servo = hw.get(CRServo.class, "transferServo");
+        transfer.setDirection(DcMotorSimple.Direction.REVERSE);
     }
     public void setMotor(double power){
         transfer.setPower(power);

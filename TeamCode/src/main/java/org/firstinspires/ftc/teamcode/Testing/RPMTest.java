@@ -17,17 +17,17 @@ public class RPMTest extends LinearOpMode {
         GamepadEvents controller = new GamepadEvents(gamepad1);
         Intake intake = new Intake(hardwareMap);
         Feeder feeder = new Feeder(hardwareMap);
-        v = 1700;
+        v = 1600;
         waitForStart();
         while(opModeIsActive())
         {
             if(controller.dpad_up.onPress())
             {
-                v += 20;
+                v += 10;
             }
             if(controller.dpad_down.onPress())
             {
-                v -= 20;
+                v -= 10;
             }
             if(controller.a.onPress()){
                 intake.setPower(0.8);

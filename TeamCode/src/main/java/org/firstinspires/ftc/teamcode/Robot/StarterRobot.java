@@ -34,7 +34,7 @@ public class StarterRobot {
     private final double RFEED_DELAY = 1, RLAUNCHER_DELAY = 1, RTRANSFER_DELAY = 1;
     private final double TRANSFER_DELAY = 1.5;
     //Shooter velocity
-    private double v = 1500;
+    private double v = 1700;
 
     //timer
     private ElapsedTime timePassed = new ElapsedTime();
@@ -96,8 +96,11 @@ public class StarterRobot {
         flap.frontGo();
         flap.backBlock();
         launcher.setVelocity(v);
-        if(launcher.getVelocity() > v || shootTime > LAUNCHER_DELAY) {
+        if(launcher.getVelocity() > v) {
             feeder.feed();
+        }
+        if(launcher.getCurrent() > 3){
+            feeder.reset();
         }
     }
 
@@ -170,8 +173,10 @@ public class StarterRobot {
     // Sends ball down
     public void load(){
         isLoading = true;
+        flap.frontGo();
+        launcher.setVelocity(v);
         flap.backDown();
-//        launcher.setVelocity(400);
+        feeder.feed();
         loadTime = timePassed.seconds();
     }
 
@@ -179,19 +184,14 @@ public class StarterRobot {
         if(!isLoading) return;
         double elapsed = timePassed.seconds() - loadTime;
         if(elapsed > LOAD_DELAY){
-            flap.backBlock();
             transfer.setServo(-1);
             transfer.setMotor(0.3);
         }
-        if(elapsed > LOAD_DELAY + 0.5){
-            feeder.feed(-0.8);
-//            launcher.setVelocity(-200);
-        }
         if(elapsed > LOAD_DELAY + 0.5 + 0.6 ){
-            transfer.setServo(-0);
+            transfer.setServo(0);
             transfer.setMotor(0);
+            flap.backBlock();
             feeder.reset();
-            launcher.reset();
             isLoading = false;
         }
     }

@@ -2,113 +2,130 @@ package org.firstinspires.ftc.teamcode.Testing;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.pedropathing.follower.Follower;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.LogitechCam;
-import org.firstinspires.ftc.teamcode.Robot.StarterRobot;
-import org.firstinspires.ftc.teamcode.SubSystems.MecanumDrive;
-import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
+import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
-@TeleOp(group = "A LeTeleOP", name = "Auto Align Plan")
+
+
+@TeleOp(name = "AutoAlignTest")
 public class TestAutoAlign extends LinearOpMode {
-    GamepadEvents controller1, controller2;
-    StarterRobot robot;
-    LogitechCam camera;
-    public boolean blueAutoAim;
+
+    // --- Configuration ---
+    private static final int TARGET_TAG_ID = 20; // Change this to the AprilTag ID you want to align to
+    private static final double ALIGNMENT_P_GAIN = 0.015; // Proportional gain for turning power (vOmega)
+    private static final double ALIGNMENT_TOLERANCE_DEG = 1.0; // Stop turning when yaw is within this range (in degrees)
+    // ---------------------
+
+    // Components
+    private LogitechCam visionSystem;
+    private Follower follower; // Pedro Pathing Follower
+
     @Override
     public void runOpMode() throws InterruptedException {
-        camera = new LogitechCam();
-        controller1 = new GamepadEvents(gamepad1);
-        controller2 = new GamepadEvents(gamepad2);
-        robot = new StarterRobot(hardwareMap, controller1, controller2);
-        camera.init(hardwareMap, telemetry);
+        // --- 1. Initialization ---
+        telemetry.addData("Status", "Initializing...");
+        telemetry.update();
+        follower = Constants.createFollower(hardwareMap);
 
-        while (opModeInInit() && !isStopRequested()) {
-            camera.update();
-            AprilTagDetection blue = camera.getTagBySpecificId(20);
-            AprilTagDetection tag21 = camera.getTagBySpecificId(21);
-            AprilTagDetection tag22 = camera.getTagBySpecificId(22);
-            AprilTagDetection tag23 = camera.getTagBySpecificId(23);
-            AprilTagDetection red = camera.getTagBySpecificId(24);
+        // Initialize the Vision System
+        visionSystem = new LogitechCam();
+        visionSystem.init(hardwareMap, telemetry);
 
-            if (tag21 != null) {
-                telemetry.addLine("Detected Tag ID: 21");
-            } else if (tag22 != null) {
-                telemetry.addLine("Detected Tag ID: 22");
-            } else if (tag23 != null) {
-                telemetry.addLine("Detected Tag ID: 23");
-            }else {
-                telemetry.addLine("No tag detected yet...");
-            }
+        telemetry.addData("Status", "Initialized. Waiting for Start.");
+        telemetry.addData("Target Tag ID", TARGET_TAG_ID);
+        telemetry.addData("Control", "Hold Left Bumper (GP1) for Auto-Align");
+        telemetry.update();
 
-            telemetry.update();
-        }
+        // Wait for the game to start (driver presses PLAY)
+        waitForStart();
 
-        while(opModeIsActive())
-        {
-            camera.update();
-            AprilTagDetection blue = camera.getTagBySpecificId(20);
+        // Check if stop was requested after initialization (e.g., driver pressed STOP after INIT)
+        if (isStopRequested()) return;
 
-            if(controller1.b.onPress())
-            {
-                blueAutoAim = !blueAutoAim; //toggle boolean
-            }
+        // Enable TeleOp drive mode in Pedro Pathing
+        follower.startTeleopDrive();
 
-            if(blue != null && blueAutoAim){
-                if(blue.ftcPose.yaw < 27.7){
-                    robot.drive(0, 0, 0.2);
-                } else if(blue.ftcPose.yaw > 30.7){
-                    robot.drive(0, 0, -0.2);
-                    //Not sure about strafe if the right power, test it out
-                } else if(blue.ftcPose.x < -29.2){
-                    robot.drive(0, 0.2, 0);
-                } else if(blue.ftcPose.x > -18.6){
-                    robot.drive(0, -0.2, 0);
-                } else if(blue.ftcPose.y < 284){
-                    robot.drive(0.2, 0, 0);
-                } else if(blue.ftcPose.y > 305){
-                    robot.drive(-0.2, 0, 0);
+        // --- 2. Main Loop ---
+        while (opModeIsActive()) {
+
+            follower.update();
+            visionSystem.update();
+
+            AprilTagDetection targetTag = visionSystem.getTagBySpecificId(TARGET_TAG_ID);
+
+            //Alignment Logic Check
+            boolean requestedAlignment = gamepad1.left_bumper;
+            boolean isAutoAligning = requestedAlignment;
+
+            // --- Drive Control ---
+            if (isAutoAligning && targetTag != null) {
+                // --- Auto-Alignment Mode ---
+
+                // ftcPose.yaw is the error in degrees from the camera's perspective.
+                double yawErrorDeg = targetTag.ftcPose.yaw;
+                double yawErrorRad = AngleUnit.DEGREES.toRadians(yawErrorDeg);
+
+                visionSystem.disPlayDetectionTelementry(targetTag);
+                telemetry.addData("Alignment Status", "TARGETING TAG");
+                telemetry.addData("Yaw Error (Deg)", String.format("%.2f", yawErrorDeg));
+
+                if (Math.abs(yawErrorDeg) < ALIGNMENT_TOLERANCE_DEG) {
+                    // If the robot is aligned, stop all movement
+                    follower.setTeleOpDrive(0, 0, 0, true);
+                    telemetry.addData("Alignment Status", "ALIGNED");
                 } else {
-                    robot.drive(0, 0, 0);
+                    // Calculate angular velocity (vOmega) using a simple P-controller
+                    double vOmega = ALIGNMENT_P_GAIN * yawErrorRad;
+
+                    // Optionally, add a minimum power to prevent stalling near the target
+                    if (Math.abs(vOmega) < 0.1) {
+                        vOmega = Math.copySign(0.1, vOmega);
+                    }
+
+                    // Apply drive power (0 translational, calculated rotational)
+                    // Use ROBOT CENTRIC control (last parameter true) for simple rotation
+                    follower.setTeleOpDrive(0, 0, vOmega, true);
+                    telemetry.addData("vOmega Applied", String.format("%.3f", vOmega));
                 }
+
+            } else if (isAutoAligning && targetTag == null) {
+                // --- Auto-Aligning but Tag Lost ---
+                follower.setTeleOpDrive(0, 0, 0, true);
+                telemetry.addData("Alignment Status", "⚠️ TAG LOST: Stopping drive");
+                telemetry.addData("Instruction", "Release/Re-Press L-Bumper to retry or drive manually.");
+
             } else {
-                //Stop if the tag is not visible or auto-aim is off
-                robot.drive(0, 0, 0);
+                // --- Manual TeleOp Drive Mode (Pedro Pathing Default) ---
+
+                // This is the default TeleOp control from the Pedro Pathing example.
+                follower.setTeleOpDrive(
+                        -gamepad1.left_stick_y, // Forward/Backward
+                        -gamepad1.left_stick_x, // Strafe
+                        -gamepad1.right_stick_x, // Turn
+                        true // Robot Centric
+                );
+
+                telemetry.addData("Alignment Status", "MANUAL CONTROL");
+                telemetry.addData("Instruction", "Hold Left Bumper to auto-align to Tag %d", TARGET_TAG_ID);
             }
-            controller1.update();
-            camera.disPlayDetectionTelementry(blue);
-            telemetry.addData("AutoAim", blueAutoAim);
-            telemetry.addData("Tag", blue != null ? blue.id : "none");
+
+            if (targetTag != null) {
+                visionSystem.disPlayDetectionTelementry(targetTag);
+            } else {
+                telemetry.addLine("No target AprilTag detected.");
+            }
+
             telemetry.update();
+
+            // Yield control to the system for a short time (important for LinearOpMode)
+            sleep(20);
         }
 
-//                 camera.disPlayDetectionTelementry(blue);
-//                double x = blue.ftcPose.x;
-//                double y = blue.ftcPose.y;
-//                double blue = blue.ftcPose.blue;
-//
-//                //idk what the values are, test them out
-//                double x_offset = 70;
-//                double y_offset = 60;
-//
-//                if (Math.abs(x) > x_offset) {
-//                    // Strafe left or right
-//                    if (x > 0) {
-//
-//                        robot.drive(0, 0.2, 0);
-//                    } else {
-//                        robot.drive(0, -0.2, 0);
-//                    }
-//                    //drive forward
-//                } else if (z > y_offset + 0.05) {
-//                    robot.drive(0.2, 0, 0);
-//                } else if (z < y_offset - 0.05) {
-//                    robot.drive(-0.2, 0, 0);
-//                } else {
-//                    robot.drive(0,0,0);
-//                }
-//            } else {
-//                // idk for turning
-//                robot.drive(0,0,0.1);
-//            }
+        visionSystem.stop();
+        telemetry.addData("Status", "Stopped.");
+        telemetry.update();
     }
 }

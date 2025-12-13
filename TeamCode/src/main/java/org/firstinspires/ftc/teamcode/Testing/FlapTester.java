@@ -19,6 +19,7 @@ public class FlapTester extends LinearOpMode {
         flap = new Flap(hardwareMap, "frontFlap", "backFlap");
         waitForStart();
         while(opModeIsActive()){
+
             flap.adjustPosition(controller1.left_trigger.getTriggerValue() - controller1.right_trigger.getTriggerValue());
             controller1.update();
             telemetry.addData("Flap position:", flap.getPosition());

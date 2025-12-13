@@ -39,7 +39,7 @@ public class AutoAlignTest extends LinearOpMode {
 
         telemetry.addData("Status", "Initialized. Waiting for Start.");
         telemetry.addData("Target Tag ID", TARGET_TAG_ID);
-        telemetry.addData("Control", "Hold Left Bumper (GP1) for Auto-Align");
+        telemetry.addData("Control", "Hold y for Auto-Align");
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)

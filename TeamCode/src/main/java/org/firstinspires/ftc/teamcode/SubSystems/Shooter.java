@@ -74,9 +74,6 @@ public class Shooter {
         return ticksPerSecToRPM(ticksPerSec);
     }
 
-    public double getCurrent(){
-        return leftMotor.getCurrent(CurrentUnit.AMPS);
-    }
 
     public double calculateTargetRPM(double distanceMeters, double targetHeightMeters, double angleDegrees) {
         double g = 9.81;
