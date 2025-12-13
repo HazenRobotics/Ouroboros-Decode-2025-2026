@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -9,10 +8,10 @@ public class Flap {
     private double position;
     private double frontPosition;
     private double backPosition;
-    private double backStop = 0.6789;
-    private double backDown = 0.5134;
-    private double frontStop = 0.2642;
-    private double frontGo = 0.7839;
+    private double backStop = 0.406;
+    private double backDown = 0.2995;
+    private double frontDown = 0.4434;
+    private double frontUp = 0.222;
     public Flap(HardwareMap hw, String frontName, String backName){
         frontFlap = hw.get(Servo.class, frontName);
         backFlap = hw.get(Servo.class, backName);
@@ -29,10 +28,10 @@ public class Flap {
     }
 
     public void frontBlock(){
-        frontFlap.setPosition(frontStop);
+        frontFlap.setPosition(frontDown);
     }
     public void frontGo(){
-        frontFlap.setPosition(frontGo);
+        frontFlap.setPosition(frontUp);
     }
     public void backBlock(){
         backFlap.setPosition(backStop);
@@ -41,7 +40,7 @@ public class Flap {
         backFlap.setPosition(backDown);
     }
     public void frontToggle(){
-        frontPosition = (frontPosition == frontGo) ? frontStop: frontGo;
+        frontPosition = (frontPosition == frontUp) ? frontDown : frontUp;
         frontFlap.setPosition(frontPosition);
     }
     public void backToggle(){
