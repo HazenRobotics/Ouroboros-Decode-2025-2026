@@ -46,12 +46,12 @@ public class BlueSideAuto extends LinearOpMode {
         // Start autonomous
             //It goes backwards for some reason and then goes forward
 
-//            waitForStart();
-//            drive.drive(-0.5,0,0);
-//            sleep(200);
-//            drive.drive(0,0,-0.2);
-//            sleep(50);
-//            drive.drive(0,0,0);
+            waitForStart();
+            drive.drive(-0.5,0,0);
+            sleep(200);
+            drive.drive(0,0,-0.2);
+            sleep(50);
+            drive.drive(0,0,0);
 
             ElapsedTime timer = new ElapsedTime();
             while(timer.seconds() < 7) {
@@ -75,10 +75,10 @@ public class BlueSideAuto extends LinearOpMode {
             }
 
             shooter.setVelocity(0);
-//            drive.drive(-0.4,0 ,0);
-//            sleep(300);
-//            drive.drive(0,0,0);
-//            telemetry.update();
+            drive.drive(-0.4,0 ,0);
+            sleep(300);
+            drive.drive(0,0,0);
+            telemetry.update();
             while(opModeIsActive()){
 
             }
