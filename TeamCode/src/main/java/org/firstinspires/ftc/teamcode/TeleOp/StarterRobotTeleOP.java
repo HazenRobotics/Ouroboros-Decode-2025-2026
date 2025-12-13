@@ -38,7 +38,7 @@ public class StarterRobotTeleOP extends LinearOpMode {
         waitForStart();
         while(opModeIsActive())
         {
-            ColorSensor.Color color = colorSensor.getColor();
+//            ColorSensor.Color color = colorSensor.getColor();
 
             robot.drive();
             if (controller1.left_bumper.onPress()) {
